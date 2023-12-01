@@ -5,26 +5,24 @@ export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
 
   if (req.method === "GET") {
-    // Assuming you have some authentication logic to get the user ID
-    const userId = getUserIdFromSomeLogic(); // Replace with your logic
-
+    const { skip }= req.query;
     try {
-      const userDetails = await prisma.user.findOne({
-        where: {
-          id: userId,
+      const list = await prisma.user.findMany({
+        skip: parseInt(skip),
+        take:10,
+        orderBy: {
+          createdAt: "desc",
         },
       });
 
-      if (!userDetails) {
-        res.status(404).json({ message: "User not found" });
-        return;
-      }
+      const countData = await prisma.user.count()
+      
 
-      res.status(200).json(userDetails);
-    } catch (error) {
-      res.status(500).json({ message: "Internal server error", error: error.message });
+      res.status(200).json({ message:"success get user", totalData: countData, user: list });
+    } catch (e) {
+      res.status(500).json(e);
     }
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
+  }else{
+    res.status(405).json({message: "method not allowed"})
   }
 }
