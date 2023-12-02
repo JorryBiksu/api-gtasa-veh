@@ -2,6 +2,7 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie';
 
 const prisma = new PrismaClient();
 
@@ -17,11 +18,14 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ userId: user.id }, '5965597916', {
+    const token = jwt.sign({ userId: user.id }, '', {
       expiresIn: '1h',
     });
 
-    res.status(200).json({ token });
+    // Set token sebagai cookie di sisi klien
+    Cookies.set('token', token, { expires: 1 / 24 }); // Cookie kedaluwarsa dalam 1 jam
+
+    res.status(200).json({ message: 'Login successful' });
   } else {
     res.status(405).json({ message: 'Method Not Allowed' });
   }
