@@ -1,7 +1,6 @@
 // pages/api/login.js
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import Cookies from 'js-cookie';
 
 const prisma = new PrismaClient();
