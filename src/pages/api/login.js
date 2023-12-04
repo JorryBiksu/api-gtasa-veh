@@ -9,10 +9,10 @@ import Cookies from 'js-cookie';
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors)
   if (req.method === 'POST') {
-    const { username, password } = req.body;
+    const { id, username, password } = req.body;
 
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { id },
     });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
