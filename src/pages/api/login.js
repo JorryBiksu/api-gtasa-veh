@@ -15,8 +15,8 @@ export default async function handler(req, res) {
       where: { id },
     });
 
-    if (!user || !bcrypt.compareSync(password, user.password)) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    if (!user || user.password !== password) {
+			return res.status(401).json({ message: "Invalid credentials" });
     }
  // Cookie kedaluwarsa dalam 1 jam
 
