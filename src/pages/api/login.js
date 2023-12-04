@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  await runMiddleware(req, res, cors)
   if (req.method === 'POST') {
     const { username, password } = req.body;
 
