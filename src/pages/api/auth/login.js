@@ -18,9 +18,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ userId: user.id }, '', {
-      expiresIn: '1h',
-    });
+    const token = generateToken(user.id);
 
     // Set token sebagai cookie di sisi klien
     Cookies.set('token', token, { expires: 1 / 24 }); // Cookie kedaluwarsa dalam 1 jam
