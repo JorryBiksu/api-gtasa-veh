@@ -1,7 +1,7 @@
 import { cors, runMiddleware } from "@/helpers/cors-middleware";
 import prisma from "../../../prisma/client";
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   await runMiddleware(req, res, cors)
 
   if (req.method === "GET") {
@@ -17,15 +17,7 @@ export async function handler(req, res) {
 
       const countData = await prisma.user.count()
 
-      res.status(200).json({
-        success: true,
-        message: "Successfully retrieved user data",
-        data: {
-          totalData: countData,
-          users: list,
-        },
-      });
-      
+      res.status(200).json({ message:"success get user", totalData: countData, user: list });
     } catch (e) {
       res.status(500).json(e);
     }
