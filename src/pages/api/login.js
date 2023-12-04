@@ -1,9 +1,6 @@
 // pages/api/login.
-import { generateToken } from "@/helpers/authentication";
 import { cors, runMiddleware } from "@/helpers/cors-middleware";
 import prisma from "../../../prisma/client";
-import bcrypt from 'bcryptjs';
-import Cookies from 'js-cookie';
 
 
 export default async function handler(req, res) {
@@ -18,7 +15,6 @@ export default async function handler(req, res) {
     if (!user || user.password !== password) {
 			return res.status(401).json({ message: "Invalid credentials" });
     }
- // Cookie kedaluwarsa dalam 1 jam
 
     res.status(200).json({ message: 'Login successful' });
   } else {
